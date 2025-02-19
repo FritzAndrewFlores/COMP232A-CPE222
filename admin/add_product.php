@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $stmt = $pdo->prepare("INSERT INTO products (product_code, description, price, stock) VALUES (?, ?, ?, ?)");
         $stmt->execute([$product_code, $description, $price, $stock]);
-        redirect('manage_products.php'); // Redirect after successful addition
+        redirect('manage_products.php'); 
     } catch (PDOException $e) {
        echo "Error: " . $e->getMessage();
     }

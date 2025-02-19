@@ -1,5 +1,5 @@
 <?php
-session_start(); // MUST be the very first thing
+session_start();
 
 function isLoggedIn() {
     return isset($_SESSION['user_id']);

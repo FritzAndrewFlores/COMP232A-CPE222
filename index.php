@@ -6,13 +6,12 @@ $error_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
-    // No password handling here
 
-    $stmt = $pdo->prepare("SELECT id, username, role FROM users WHERE username = ?"); // No password in query
+    $stmt = $pdo->prepare("SELECT id, username, role FROM users WHERE username = ?");
     $stmt->execute([$username]);
     $user = $stmt->fetch();
 
-    if ($user) { // Just check if the user exists
+    if ($user) { 
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
@@ -23,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             redirect('cashier/point_of_sale.php');
         }
     } else {
-        $error_message = "Invalid username."; // Simpler error message
+        $error_message = "Invalid username.";
     }
 }
 ?>
@@ -40,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php if ($error_message): ?>
             <p class="error-message"><?= $error_message ?></p>
         <?php endif; ?>
-        <form method="post">
+        <form method="post" class="login-form">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required autocomplete="off">
 

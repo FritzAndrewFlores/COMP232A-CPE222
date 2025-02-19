@@ -6,7 +6,6 @@ if (!isCashier()) {
     redirect('../index.php');
 }
 
-// Initialize the cart if it doesn't exist
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
@@ -24,12 +23,12 @@ if (!isset($_SESSION['cart'])) {
     <?php
     if (isset($_SESSION['success_message'])) {
         echo '<p class="success-message">' . htmlspecialchars($_SESSION['success_message']) . '</p>';
-        unset($_SESSION['success_message']); // Clear the message after displaying it
+        unset($_SESSION['success_message']); 
     }
 
     if (isset($_SESSION['error_message'])) {
         echo '<p class="error-message">' . htmlspecialchars($_SESSION['error_message']) . '</p>';
-        unset($_SESSION['error_message']); // Clear the message after displaying it
+        unset($_SESSION['error_message']); 
     }
     ?>
 
@@ -54,48 +53,49 @@ if (!isset($_SESSION['cart'])) {
         </thead>
         <tbody>
              <?php
-                $grand_total = 0; // Initialize grand total
+                $grand_total = 0;
 
                 if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
-                    foreach ($_SESSION['cart'] as $item) { // Corrected foreach loop
-                        // Fetch product details from the database (using prepared statement)
+                    foreach ($_SESSION['cart'] as $item) {
                         $stmt = $pdo->prepare("SELECT description, price FROM products WHERE product_code = ?");
                         $stmt->execute([$item['product_code']]);
                         $product = $stmt->fetch();
 
-                        if ($product) { // Check if product was found
+                        if ($product) {
                             $total = $product['price'] * $item['quantity'];
                             $grand_total += $total;
                             ?>
                             <tr>
                                 <td><?= htmlspecialchars($item['product_code']) ?></td>
                                 <td><?= htmlspecialchars($product['description']) ?></td>
-                                <td><?= htmlspecialchars($product['price']) ?></td>
+                                <td>₱<?= number_format(htmlspecialchars($product['price']), 2) ?></td>
                                 <td><?= htmlspecialchars($item['quantity']) ?></td>
-                                <td><?= htmlspecialchars($total) ?></td>
+                                <td>₱<?= number_format(htmlspecialchars($total), 2) ?></td>
                             </tr>
                             <?php
                         } else {
-                            // Handle the case where the product code is not found in the database
                             echo "<tr><td colspan='5'>Product not found: " . htmlspecialchars($item['product_code']) . "</td></tr>";
                         }
                     }
                 } else {
-                    echo "<tr><td colspan='5'>Your cart is empty.</td></tr>"; // Display message if cart is empty
+                    echo "<tr><td colspan='5'>Your cart is empty.</td></tr>";
                 }
             ?>
         </tbody>
         <tfoot>
           <tr>
             <td colspan="4">Grand Total:</td>
-            <td><?= htmlspecialchars($grand_total)?></td>
+            <td>₱<?= number_format($grand_total, 2)?></td>
           </tr>
         </tfoot>
     </table>
 
     <form action="checkout_process.php" method="post">
-        <label for="cash_tendered">Cash Tendered:</label>
-        <input type="number" step="0.01" name="cash_tendered" id="cash_tendered" required>
+      <label for="cash_tendered">Cash Tendered:</label>
+        <div class="input-group">
+            <span class="input-group-text">₱</span>
+            <input type="number" step="0.01" name="cash_tendered" id="cash_tendered" required>
+        </div>
         <input type="hidden" name="grand_total" value="<?= htmlspecialchars($grand_total) ?>">
         <input type="submit" value="Checkout">
     </form>

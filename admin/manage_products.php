@@ -5,7 +5,6 @@ if (!isAdmin()) {
     redirect('../index.php');
 }
 
-// Fetch products for display
 $stmt = $pdo->query("SELECT * FROM products");
 $products = $stmt->fetchAll();
 
@@ -31,7 +30,10 @@ $products = $stmt->fetchAll();
         <input type="text" id="description" name="description" required><br><br>
 
         <label for="price">Price:</label>
-        <input type="number" step="0.01" id="price" name="price" required><br><br>
+        <div class="input-group">
+            <span class="input-group-text">₱</span>
+            <input type="number" step="0.01" id="price" name="price" required>
+        </div><br><br>
 
         <label for="stock">Stock:</label>
         <input type="number" id="stock" name="stock" required><br><br>
@@ -55,12 +57,12 @@ $products = $stmt->fetchAll();
             <tr>
                 <td><?= htmlspecialchars($product['product_code']) ?></td>
                 <td><?= htmlspecialchars($product['description']) ?></td>
-                <td><?= htmlspecialchars($product['price']) ?></td>
+                <td>₱<?= number_format(htmlspecialchars($product['price']), 2) ?></td>
                 <td><?= htmlspecialchars($product['stock']) ?></td>
             </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
-</div>
+  </div>
 </body>
 </html>
