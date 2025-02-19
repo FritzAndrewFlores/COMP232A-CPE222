@@ -6,7 +6,6 @@ if (!isAdmin()) {
     redirect('../index.php');
 }
 
-// Fetch products for display
 $stmt = $pdo->query("SELECT * FROM products");
 $products = $stmt->fetchAll();
 
@@ -17,6 +16,11 @@ $products = $stmt->fetchAll();
 <head>
     <title>Manage Products</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <script>
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete this product? This action cannot be undone.");
+        }
+    </script>
 </head>
 <body>
 <div class="container">
@@ -37,12 +41,6 @@ $products = $stmt->fetchAll();
             <input type="number" step="0.01" id="price" name="price" required>
         </div>
 
-        <label for="cost">Cost:</label>
-         <div class="input-group">
-            <span class="input-group-text">₱</span>
-            <input type="number" step="0.01" id = "cost" name="cost" required>
-        </div>
-
         <label for="stock">Stock:</label>
         <input type="number" id="stock" name="stock" required>
 
@@ -57,7 +55,6 @@ $products = $stmt->fetchAll();
                 <th>Product Code</th>
                 <th>Description</th>
                 <th>Price</th>
-                <th>Cost</th>
                 <th>Stock</th>
                 <th>Action</th>
             </tr>
@@ -68,13 +65,16 @@ $products = $stmt->fetchAll();
                 <td><?= htmlspecialchars($product['product_code']) ?></td>
                 <td><?= htmlspecialchars($product['description']) ?></td>
                 <td>₱<?= number_format(htmlspecialchars($product['price']), 2) ?></td>
-                <td>₱<?= number_format(htmlspecialchars($product['cost']), 2) ?></td>
                 <td><?= htmlspecialchars($product['stock']) ?></td>
                 <td>
                     <form action="update_stock.php" method="post">
                         <input type="hidden" name="product_code" value="<?= htmlspecialchars($product['product_code']) ?>">
                         <input type="number" name="new_stock" value="<?= htmlspecialchars($product['stock']) ?>" required>
                         <button type="submit" class="update-stock-btn">Update Stock</button>
+                    </form>
+                    <form action="delete_product.php" method="post" onsubmit="return confirmDelete();">
+                        <input type="hidden" name="product_code" value="<?= htmlspecialchars($product['product_code']) ?>">
+                        <button type="submit" class="delete-product-btn">Delete</button>
                     </form>
                 </td>
             </tr>

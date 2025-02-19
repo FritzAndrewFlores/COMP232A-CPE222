@@ -1,3 +1,5 @@
+/* styles.css */
+
 body {
     font-family: sans-serif;
     background-color: #f4f4f4;
@@ -17,6 +19,8 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+/* Remove general form styles */
 
 label {
     display: block;
@@ -42,6 +46,7 @@ input[type="date"] {
     width: auto;
 }
 
+/* General submit button styling (for consistency) */
 input[type="submit"] {
     background-color: #4CAF50;
     color: white;
@@ -50,13 +55,14 @@ input[type="submit"] {
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
-    width: 100%; 
+    width: 100%; /* Keep submit button full-width on forms WHERE IT'S ALONE */
 }
 
 input[type="submit"]:hover {
     background-color: #45a049;
 }
 
+/* Table responsiveness */
 .table-responsive {
     overflow-x: auto;
     width: 100%;
@@ -90,7 +96,7 @@ th {
     margin-bottom: 15px;
 }
 
-.container {
+.container { /* Keep this for other pages */
     width: 750px;
     max-width: 95%;
     margin: 20px auto;
@@ -125,21 +131,22 @@ tfoot {
     font-weight: bolder;
 }
 
+/* Styles for the login form AND its container */
 .login-container {
     width: 100%;
     padding-top: 20px;
-    text-align: center; 
+    text-align: center; /* Center the content horizontally */
 }
 
 .login-form {
     max-width: 300px;
     width: 100%;
-    margin: 0 auto; 
+    margin: 0 auto; /* Keep horizontal centering */
     padding: 20px;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    display: inline-block; 
+    display: inline-block; /* Important: Allow the form to be centered */
 }
 
 .login-form label {
@@ -184,25 +191,30 @@ tfoot {
     flex-grow: 1;
 }
 
+/* --- Button Styles --- */
+
+/* Style for change role button */
 .change-role-btn {
-    background-color: #007bff; 
+    background-color: #007bff;
     color: white;
-    padding: 5px 10px;     
+    padding: 5px 10px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 12px;     
+    font-size: 12px;
     display: inline-block;
-    margin-left: 5px;       
-    text-align: center;    
+    margin-left: 5px;
+    text-align: center;
 }
 
 .change-role-btn:hover {
-    background-color: #0056b3; 
+    background-color: #0056b3;
 }
+
+/* Style for the Reset Cart button */
 .reset-cart-btn {
-    display: inline-block; 
-    background-color: #f44336; 
+    display: inline-block;
+    background-color: #f44336;
     color: white;
     padding: 8px 12px;
     border: none;
@@ -210,15 +222,16 @@ tfoot {
     text-decoration: none;
     cursor: pointer;
     font-size: 14px;
-    margin-top: 10px; 
+    margin-top: 10px;
 }
 
 .reset-cart-btn:hover {
-    background-color: #d32f2f; 
+    background-color: #d32f2f;
 }
 
+/* Style for the Cancel Item button */
 .cancel-item-btn {
-    background-color: #dc3545; 
+    background-color: #dc3545;
     color: white;
     padding: 5px 10px;
     border: none;
@@ -233,17 +246,38 @@ tfoot {
     background-color: #c82333;
 }
 
+/* Style for the Update Stock button */
 .update-stock-btn {
-    background-color: #28a745; 
+    background-color: #28a745; /* Green color */
     color: white;
     padding: 5px 10px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 12px;
-    display: inline-block; 
+    display: inline-block;
     margin-left: 5px;
+    margin-bottom: 5px; /* Add some space below */
 }
+
 .update-stock-btn:hover {
-     background-color: #218838;
+    background-color: #218838;
+}
+
+/* Style for the Delete Product button */
+.delete-product-btn {
+    background-color: #dc3545; /* Red color */
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    display: inline-block;
+    margin-left: 5px;
+    text-decoration: none; /* Remove underline if it's a link */
+}
+
+.delete-product-btn:hover {
+    background-color: #c82333; /* Darker red on hover */
 }
