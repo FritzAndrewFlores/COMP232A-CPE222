@@ -1,0 +1,23 @@
+put this repository in C:\xampp\htdocs\folder name of your choice
+
+then run this SQL code in localhost\phpmyadmin 
+
+-- 1. Create the database if it doesn't exist
+CREATE DATABASE IF NOT EXISTS pos_system;
+USE pos_system;
+
+-- 2. Drop existing users table if it exists
+DROP TABLE IF EXISTS users;
+
+-- 3. Create a fresh users table
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'cashier') NOT NULL
+);
+
+-- 4. Insert default admin and cashier users with plain text passwords
+INSERT INTO users (username, password, role) VALUES
+('admin', 'password', 'admin'),
+('cashier', 'password', 'cashier');
