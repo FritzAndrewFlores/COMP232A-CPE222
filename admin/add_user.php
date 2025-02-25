@@ -7,17 +7,28 @@ if (!isAdmin()) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'];
-    // No password handling
-    $role = $_POST['role'];
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']); // New password field
+    $role = trim($_POST['role']);
+
+    if (empty($username) || empty($password) || empty($role)) {
+        $_SESSION['error_message'] = "All fields are required!";
+        redirect('manage_users.php');
+        exit;
+    }
+
+    $hashed_password = $password; // Store password as plain text
 
     try {
-        $stmt = $pdo->prepare("INSERT INTO users (username, role) VALUES (?, ?)"); // No password
-        $stmt->execute([$username, $role]);
+        $stmt = $pdo->prepare("INSERT INTO users (username, password, role) VALUES (?, ?, ?)");
+        $stmt->execute([$username, $hashed_password, $role]);
+
+        $_SESSION['success_message'] = "User added successfully!";
         redirect('manage_users.php');
 
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        $_SESSION['error_message'] = "Error adding user!";
+        redirect('manage_users.php');
     }
 }
 ?>

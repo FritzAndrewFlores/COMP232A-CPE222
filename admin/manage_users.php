@@ -9,6 +9,7 @@ if (!isAdmin()) {
 $stmt = $pdo->query("SELECT id, username, role FROM users");
 $users = $stmt->fetchAll();
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,15 +22,15 @@ $users = $stmt->fetchAll();
     <a href="admin_panel.php">Back to Admin Panel</a>
 
     <h3>Add User</h3>
-    <form action="add_user.php" method="post">
+    <form method="POST" action="add_user.php">
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
+        <input type="text" name="username" required>
 
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+        <input type="password" name="password" required>
 
         <label for="role">Role:</label>
-        <select id="role" name="role" required>
+        <select name="role" required>
             <option value="admin">Admin</option>
             <option value="cashier">Cashier</option>
         </select>
@@ -37,35 +38,22 @@ $users = $stmt->fetchAll();
         <input type="submit" value="Add User">
     </form>
 
-    <h3>User List</h3>
+    <h3>Users List</h3>
     <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Role</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($users as $user): ?>
-            <tr>
-                <td><?= $user['id'] ?></td>
-                <td><?= htmlspecialchars($user['username']) ?></td>
-                <td><?= htmlspecialchars($user['role']) ?></td>
-                <td>
-                    <form action="change_user_role.php" method="post">
-                        <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
-                        <select name="new_role">
-                            <option value="admin" <?= $user['role'] === 'admin' ? 'selected' : '' ?>>Admin</option>
-                            <option value="cashier" <?= $user['role'] === 'cashier' ? 'selected' : '' ?>>Cashier</option>
-                        </select>
-                        <button type="submit" class="change-role-btn">Change Role</button> 
-                    </form>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
+        <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+        <?php foreach ($users as $user): ?>
+        <tr>
+            <td><?php echo htmlspecialchars($user['username']); ?></td>
+            <td><?php echo htmlspecialchars($user['role']); ?></td>
+            <td>
+                <a href="reset_password.php?user_id=<?php echo $user['id']; ?>" class="reset-password-btn">Reset Password</a>
+            </td>
+        </tr>
+        <?php endforeach; ?>
     </table>
 </div>
 </body>
